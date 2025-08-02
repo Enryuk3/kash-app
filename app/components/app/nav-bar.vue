@@ -41,6 +41,7 @@ function isActive(path: string) {
 
         <!-- Right side actions -->
         <div class="flex items-center space-x-3">
+          <AppThemeToggle />
           <UButton
             color="primary"
             variant="ghost"
