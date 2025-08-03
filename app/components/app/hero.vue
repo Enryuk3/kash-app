@@ -41,20 +41,13 @@ const features = [
 
         <!-- Botones de acción -->
         <div class="flex flex-col sm:flex-row gap-4 justify-center">
-          <UButton
-            size="xl"
-            color="primary"
-            variant="solid"
-            label="Comenzar Gratis"
-            icon="i-tabler-arrow-right"
-            class="px-5"
-          />
+          <AuthButton class="px-5" />
           <UButton
             size="xl"
             color="neutral"
             variant="outline"
             label="Explorar"
-            icon="i-tabler:compass"
+            trailing-icon="i-tabler:compass"
             class="px-5"
           />
         </div>

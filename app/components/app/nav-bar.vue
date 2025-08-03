@@ -3,10 +3,10 @@ const route = useRoute()
 const isMenuOpen = ref(false)
 
 const navItems = [
-  { label: 'Inicio', to: '#inicio' },
-  { label: 'Características', to: '#caracteristicas' },
-  { label: 'Cómo funciona', to: '#como-funciona' },
-  { label: 'Contacto', to: '#contacto' },
+  { label: 'Inicio', to: '/#inicio' },
+  { label: 'Características', to: '/#caracteristicas' },
+  { label: 'Cómo funciona', to: '/#como-funciona' },
+  { label: 'Contacto', to: '/#contacto' },
 ]
 
 function isActive(path: string) {
@@ -42,20 +42,7 @@ function isActive(path: string) {
         <!-- Right side actions -->
         <div class="flex items-center space-x-3">
           <AppThemeToggle />
-          <UButton
-            color="primary"
-            variant="ghost"
-            label="Iniciar Sesión"
-            to="/login"
-            class="hidden sm:inline-flex"
-          />
-          <UButton
-            color="primary"
-            variant="solid"
-            label="Registrarse"
-            to="/register"
-            class="hidden sm:inline-flex"
-          />
+          <AuthButton />
           <!-- Mobile menu button -->
           <UButton
             color="neutral"
@@ -83,24 +70,7 @@ function isActive(path: string) {
             {{ item.label }}
           </a>
           <div class="pt-2 border-t border-gray-200 dark:border-gray-800 mt-2 space-y-2">
-            <UButton
-              block
-              color="primary"
-              variant="ghost"
-              label="Iniciar Sesión"
-              to="/login"
-              class="justify-start"
-              @click="isMenuOpen = false"
-            />
-            <UButton
-              block
-              color="primary"
-              variant="solid"
-              label="Registrarse"
-              to="/register"
-              class="justify-start"
-              @click="isMenuOpen = false"
-            />
+            <AuthButton block />
           </div>
         </div>
       </div>
