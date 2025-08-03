@@ -6,9 +6,10 @@ import withNuxt from './.nuxt/eslint.config.mjs'
 export default withNuxt(antfu({
   type: 'app',
   vue: true,
+  ignores: ['.pnpm-store/**', '**/migrations/*'],
 }, {
   rules: {
-    'ts/no-redeclare': ['off'],
+    'ts/no-redeclare': 'off',
     'ts/consistent-type-definitions': ['error', 'type'],
     'no-console': ['warn'],
     'antfu/no-top-level-await': ['off'],
