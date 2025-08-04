@@ -1,12 +1,25 @@
-// If your Prisma file is located elsewhere, you can change the path
 import { PrismaClient } from '@prisma/client'
 import { betterAuth } from 'better-auth'
 import { prismaAdapter } from 'better-auth/adapters/prisma'
+import { createAuthMiddleware } from 'better-auth/plugins'
 
 import env from '~/lib/env'
 
 const prisma = new PrismaClient()
 export const auth = betterAuth({
+  hooks: {
+    after: createAuthMiddleware(async (ctx) => {
+      if (ctx.path === '/get-session') {
+        if (!ctx.context.session) {
+          return ctx.json({
+            session: null,
+            user: null,
+          })
+        }
+        return ctx.json(ctx.context.session)
+      }
+    }),
+  },
   database: prismaAdapter(prisma, {
     provider: 'postgresql',
   }),
