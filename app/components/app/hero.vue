@@ -1,4 +1,5 @@
 <script setup lang="ts">
+const authStore = useAuthStore()
 const features = [
   {
     icon: 'i-tabler-wallet',
@@ -41,7 +42,8 @@ const features = [
 
         <!-- Botones de acción -->
         <div class="flex flex-col sm:flex-row gap-4 justify-center">
-          <AuthButton class="px-5" />
+          <AuthButton v-if="!authStore.user" class="px-5" />
+          <UButton v-else to="/dashboard" label="Ver dashboard" />
           <UButton
             size="xl"
             color="neutral"
