@@ -15,14 +15,14 @@ function isActive(path: string) {
 </script>
 
 <template>
-  <header class="bg-white/80 dark:bg-gray-900/80 backdrop-blur-sm border-b border-gray-200 dark:border-gray-800 fixed w-full z-50">
+  <header class="sticky top-0 z-50 w-full border-b border-default bg-default/75 backdrop-blur-sm">
     <div class="container mx-auto px-4">
       <div class="flex justify-between items-center h-16">
         <!-- Logo -->
-        <a href="#inicio" class="flex items-center space-x-2">
+        <UButton to="/" class="flex items-center space-x-2" variant="link">
           <UIcon name="i-tabler-coins" class="w-8 h-8 text-primary-600 dark:text-primary-400" />
-          <span class="text-2xl font-bold text-gray-900 dark:text-white">Kash</span>
-        </a>
+          <span class="text-2xl font-bold text-default">Kash</span>
+        </UButton>
 
         <!-- Desktop Navigation -->
         <nav class="hidden md:flex items-center space-x-4">
@@ -30,7 +30,7 @@ function isActive(path: string) {
             v-for="item in navItems"
             :key="item.to"
             :href="item.to"
-            class="px-3 py-2 text-sm font-medium transition-colors rounded-md"
+            class="px-3 py-2 text-sm font-medium transition-colors duration-200 rounded-md"
             :class="isActive(item.to)
               ? 'text-primary-600 dark:text-primary-400 font-medium bg-primary-50 dark:bg-primary-900/30'
               : 'text-gray-700 hover:text-primary-600 dark:text-gray-300 dark:hover:text-primary-400'"

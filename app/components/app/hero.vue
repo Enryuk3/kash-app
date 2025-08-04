@@ -20,7 +20,7 @@ const features = [
 </script>
 
 <template>
-  <section id="inicio" class="relative overflow-hidden py-32 bg-gradient-to-br from-primary-50 to-white dark:from-gray-900 dark:to-gray-800">
+  <section id="inicio" class="relative overflow-hidden pt-24 pb-32 bg-gradient-to-br from-primary-50 to-white dark:from-neutral-950 dark:to-neutral-900">
     <div class="container mx-auto px-4 sm:px-6 lg:px-8">
       <div class="max-w-4xl mx-auto text-center">
         <!-- Badge -->
