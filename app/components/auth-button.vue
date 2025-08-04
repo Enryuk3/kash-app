@@ -5,7 +5,7 @@ const authStore = useAuthStore()
 
 const items = ref<DropdownMenuItem[]>([
   {
-    label: 'Salir',
+    label: 'Cerrar Sesión',
     icon: 'i-tabler-logout-2',
     to: '/sign-out',
   },
