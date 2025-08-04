@@ -1,5 +1,5 @@
 <template>
-  <div class="flex justify-center items-center h-screen">
-    <h1>You are logged in</h1>
+  <div class="flex-1 flex">
+    <Sidebar />
   </div>
 </template>
