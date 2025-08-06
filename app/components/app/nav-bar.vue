@@ -16,7 +16,7 @@ function isActive(path: string) {
 
 <template>
   <header class="sticky top-0 z-50 w-full border-b border-default bg-default/75 backdrop-blur-sm">
-    <div class="container mx-auto px-4">
+    <div class="max-w-[var(--ui-container)] mx-auto px-4">
       <div class="flex justify-between items-center h-16">
         <!-- Logo -->
         <UButton to="/" class="flex items-center space-x-2" variant="link">
