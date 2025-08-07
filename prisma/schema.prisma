@@ -23,6 +23,10 @@ model User {
   updatedAt     DateTime
   sessions      Session[]
   accounts      Account[]
+  transactions  Transaction[]
+  categories    Category[]
+  budgets       Budget[]
+  goals         Goal[]
 
   @@unique([email])
   @@map("user")
@@ -71,4 +75,69 @@ model Verification {
   updatedAt  DateTime?
 
   @@map("verification")
+}
+
+model Category {
+  id           String       @id @default(cuid())
+  name         String
+  type         String       // 'income' o 'expense'
+  icon         String?
+  color        String?
+  userId       String
+  user         User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  transactions Transaction[]
+  budgets      Budget[]
+  createdAt    DateTime     @default(now())
+  updatedAt    DateTime     @updatedAt
+
+  @@unique([userId, name, type])
+  @@map("category")
+}
+
+model Transaction {
+  id          String   @id @default(cuid())
+  amount      Float
+  description String
+  date        DateTime @default(now())
+  type        String   // 'income' o 'expense'
+  categoryId  String
+  category    Category @relation(fields: [categoryId], references: [id])
+  userId      String
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@map("transaction")
+}
+
+model Budget {
+  id          String   @id @default(cuid())
+  amount      Float
+  categoryId  String
+  category    Category @relation(fields: [categoryId], references: [id])
+  month       Int
+  year        Int
+  userId      String
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@unique([userId, categoryId, month, year])
+  @@map("budget")
+}
+
+model Goal {
+  id            String   @id @default(cuid())
+  name          String
+  targetAmount  Float
+  currentAmount Float    @default(0)
+  targetDate    DateTime?
+  description   String?
+  userId        String
+  user          User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  isCompleted   Boolean  @default(false)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  @@map("goal")
 }

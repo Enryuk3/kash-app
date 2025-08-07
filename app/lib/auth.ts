@@ -1,11 +1,10 @@
-import { PrismaClient } from '@prisma/client'
 import { betterAuth } from 'better-auth'
 import { prismaAdapter } from 'better-auth/adapters/prisma'
 import { createAuthMiddleware } from 'better-auth/plugins'
 
+import prisma from '~/lib/db'
 import env from '~/lib/env'
 
-const prisma = new PrismaClient()
 export const auth = betterAuth({
   hooks: {
     after: createAuthMiddleware(async (ctx) => {
