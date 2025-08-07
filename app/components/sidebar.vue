@@ -70,7 +70,15 @@ function toggleSidebar() {
           </UButton>
         </UTooltip>
         <hr class="my-3 border-default">
-        <UTooltip :text="!isSidebarOpen ? 'Cerrar Sesión' : undefined" :disabled="isSidebarOpen">
+        <UTooltip
+          :text="!isSidebarOpen ? 'Cerrar Sesión' : undefined"
+          :disabled="isSidebarOpen"
+          :content="{
+            align: 'center',
+            side: 'right',
+            sideOffset: 8,
+          }"
+        >
           <UButton
             label="Cerrar Sesión"
             icon="i-tabler-logout-2"
