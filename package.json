@@ -13,6 +13,7 @@
     "lint:fix": "eslint --fix"
   },
   "dependencies": {
+    "@internationalized/date": "^3.8.2",
     "@nuxt/ui": "^3.3.0",
     "@pinia/nuxt": "0.11.2",
     "@prisma/client": "^6.13.0",
@@ -29,6 +30,7 @@
     "@antfu/eslint-config": "^5.1.0",
     "@nuxt/eslint": "^1.7.1",
     "eslint": "^9.32.0",
+    "eslint-plugin-format": "^1.0.1",
     "prisma": "^6.13.0",
     "typescript": "5.8.3"
   }

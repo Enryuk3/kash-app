@@ -23,7 +23,13 @@ const items = ref<DropdownMenuItem[]>([
     }"
     :ui="{ content: 'w-44' }"
   >
-    <UButton v-if="authStore.user.image" :label="authStore.user.name" :avatar="{ src: authStore.user.image }" color="neutral" variant="outline" />
+    <UButton
+      v-if="authStore.user.image"
+      :label="authStore.user.name"
+      :avatar="{ src: authStore.user.image }"
+      color="neutral"
+      variant="outline"
+    />
   </UDropdownMenu>
   <UButton
     v-else
