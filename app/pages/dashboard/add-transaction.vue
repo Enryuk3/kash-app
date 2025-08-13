@@ -19,12 +19,14 @@ const transactionTypes = [
   {
     value: 'expense',
     label: 'Gasto',
-    icon: 'i-tabler-trending-down text-error',
+    icon: 'i-tabler-trending-down',
+    color: 'error',
   },
   {
     value: 'income',
     label: 'Ingreso',
-    icon: 'i-tabler-trending-up text-success',
+    icon: 'i-tabler-trending-up',
+    color: 'success',
   },
 ]
 
@@ -199,12 +201,22 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
           <UFormField label="Tipo" name="type">
             <USelectMenu
               v-model="state.type"
-              :icon="transactionTypes.find(t => t.value === state.type)?.icon"
               :items="transactionTypes"
               value-key="value"
               class="w-full"
               :ui-menu="{ select: 'flex items-center gap-2' }"
-            />
+            >
+              <template #leading>
+                <UIcon
+                  :name="transactionTypes.find(t => t.value === state.type)?.icon ?? 'i-tabler-question-mark'"
+                  :class="{
+                    'text-error': state.type === 'expense',
+                    'text-success': state.type === 'income',
+                    'text-gray-500': !state.type,
+                  }"
+                />
+              </template>
+            </USelectMenu>
           </UFormField>
         </div>
 
@@ -248,25 +260,23 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
           </div>
 
           <!-- Formulario para nueva categoría -->
-          <TransitionExpand>
-            <div v-if="isCategoryFormOpen" class="mt-2 inline-flex gap-2">
-              <UInput
-                v-model="newCategoryName"
-                placeholder="Nombre de la categoría"
-                class="flex-1"
-                icon="i-tabler-tag"
-                autofocus
-                @keyup.enter="createCategory"
-              />
-              <UButton
-                icon="i-tabler-check"
-                color="primary"
-                label="Crear"
-                :loading="isSavingCategory"
-                @click="createCategory"
-              />
-            </div>
-          </TransitionExpand>
+          <div v-if="isCategoryFormOpen" class="mt-2 inline-flex gap-2">
+            <UInput
+              v-model="newCategoryName"
+              placeholder="Nombre de la categoría"
+              class="flex-1"
+              icon="i-tabler-tag"
+              autofocus
+              @keyup.enter="createCategory"
+            />
+            <UButton
+              icon="i-tabler-check"
+              color="primary"
+              label="Crear"
+              :loading="isSavingCategory"
+              @click="createCategory"
+            />
+          </div>
         </div>
       </UFormField>
 
@@ -295,7 +305,7 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
   </div>
 </template>
 
-<style scoped>
+<!-- <style scoped>
 /* Animación para el formulario de nueva categoría */
 .v-enter-active,
 .v-leave-active {
@@ -309,4 +319,4 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
   opacity: 0;
   transform: translateY(-10px);
 }
-</style>
+</style> -->

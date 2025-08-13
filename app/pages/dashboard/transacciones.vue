@@ -1,5 +1,7 @@
 <script lang="ts" setup>
 const { data: transactions, status } = await useFetch('/api/transactions', { lazy: true })
+const { data: _categories } = await useFetch('/api/categories', { lazy: true })
+const categories = computed(() => _categories.value || [])
 
 // Filtros y búsqueda
 const searchQuery = ref('')
@@ -42,19 +44,6 @@ const filteredTransactions = computed(() => {
 
     return matchesSearch && matchesType && matchesCategory
   })
-})
-
-// Obtener categorías únicas
-const categories = computed(() => {
-  if (!transactions.value)
-    return []
-  const unique = new Map()
-  transactions.value.forEach((t) => {
-    if (!unique.has(t.category.id)) {
-      unique.set(t.category.id, t.category)
-    }
-  })
-  return Array.from(unique.values())
 })
 </script>
 
@@ -134,7 +123,7 @@ const categories = computed(() => {
         />
         <USelect
           v-model="selectedType"
-          :options="[
+          :items="[
             { value: null, label: 'Todos los tipos' },
             { value: 'income', label: 'Ingresos' },
             { value: 'expense', label: 'Gastos' },
@@ -143,7 +132,7 @@ const categories = computed(() => {
         />
         <USelect
           v-model="selectedCategory"
-          :options="[
+          :items="[
             { value: null, label: 'Todas las categorías' },
             ...categories.map(c => ({ value: c.id, label: c.name })),
           ]"
@@ -268,7 +257,7 @@ const categories = computed(() => {
             color="primary"
             variant="soft"
             class="mt-6"
-            to="/dashboard/transacciones/nueva"
+            to="/dashboard/add-transaction"
           >
             <UIcon name="i-tabler-plus" class="w-5 h-5" />
             <span>Nueva Transacción</span>
