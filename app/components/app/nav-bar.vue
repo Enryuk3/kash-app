@@ -1,17 +1,17 @@
 <script setup lang="ts">
-const route = useRoute()
+// const route = useRoute()
 const isMenuOpen = ref(false)
 
-const navItems = [
-  { label: 'Inicio', to: '/#inicio' },
-  { label: 'Características', to: '/#caracteristicas' },
-  { label: 'Cómo funciona', to: '/#como-funciona' },
-  { label: 'Contacto', to: '/#contacto' },
-]
+// const navItems = [
+//   { label: 'Inicio', to: '/#inicio' },
+//   { label: 'Características', to: '/#caracteristicas' },
+//   { label: 'Cómo funciona', to: '/#como-funciona' },
+//   { label: 'Contacto', to: '/#contacto' },
+// ]
 
-function isActive(path: string) {
-  return route.hash === path
-}
+// function isActive(path: string) {
+//   return route.hash === path
+// }
 </script>
 
 <template>
@@ -20,12 +20,12 @@ function isActive(path: string) {
       <div class="flex justify-between items-center h-16">
         <!-- Logo -->
         <UButton to="/" class="flex items-center space-x-2" variant="link">
-          <UIcon name="i-tabler-coins" class="w-8 h-8 text-primary-600 dark:text-primary-400" />
+          <UIcon name="i-tabler-coins" class="w-8 h-8 text-primary" />
           <span class="text-2xl font-bold text-default">Kash</span>
         </UButton>
 
         <!-- Desktop Navigation -->
-        <nav class="hidden md:flex items-center space-x-4">
+        <!-- <nav class="hidden md:flex items-center space-x-4">
           <a
             v-for="item in navItems"
             :key="item.to"
@@ -37,7 +37,7 @@ function isActive(path: string) {
           >
             {{ item.label }}
           </a>
-        </nav>
+        </nav> -->
 
         <!-- Right side actions -->
         <div class="flex items-center space-x-3">
@@ -55,7 +55,7 @@ function isActive(path: string) {
       </div>
 
       <!-- Mobile menu -->
-      <div v-if="isMenuOpen" class="md:hidden py-2">
+      <!-- <div v-if="isMenuOpen" class="md:hidden py-2">
         <div class="space-y-1">
           <a
             v-for="item in navItems"
@@ -73,7 +73,7 @@ function isActive(path: string) {
             <AuthButton block />
           </div>
         </div>
-      </div>
+      </div> -->
     </div>
   </header>
 </template>

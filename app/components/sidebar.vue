@@ -22,6 +22,11 @@ const items = [
     icon: 'i-tabler-circle-plus-filled',
     to: '/dashboard/add-transaction',
   },
+  {
+    label: 'Objetivos',
+    icon: 'i-tabler-target-arrow',
+    to: '/dashboard/goals',
+  },
 ]
 
 function toggleSidebar() {
