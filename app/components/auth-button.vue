@@ -29,6 +29,7 @@ const items = ref<DropdownMenuItem[]>([
       :avatar="{ src: authStore.user.image }"
       color="neutral"
       variant="outline"
+      class="hidden sm:inline-flex"
     />
   </UDropdownMenu>
   <UButton

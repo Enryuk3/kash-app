@@ -22,11 +22,14 @@ export default defineAuthenticatedEventHandler(async (event) => {
   }
 
   try {
+    const { targetDate, ...restData } = result.data
+    
     const goal = await prisma.goal.create({
       data: {
-        ...result.data,
+        ...restData,
+        targetDate: targetDate ? new Date(targetDate) : null,
         userId: event.context.user.id,
-        isCompleted: false,
+        isCompleted: false
       },
     })
 

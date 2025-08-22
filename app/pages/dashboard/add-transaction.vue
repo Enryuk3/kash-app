@@ -188,7 +188,8 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
             size="xl"
             type="number"
             step="0.01"
-            placeholder="0.00"
+            min="0"
+            placeholder="150,30"
             class="w-full pl-8 text-2xl font-semibold"
             inputmode="decimal"
           />

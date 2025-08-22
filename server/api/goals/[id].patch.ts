@@ -46,9 +46,14 @@ export default defineAuthenticatedEventHandler(async (event) => {
       }))
     }
 
+    const { targetDate, ...restData } = result.data
+
     const updatedGoal = await prisma.goal.update({
       where: { id: goalId },
-      data: result.data,
+      data: {
+        ...restData,
+        targetDate: targetDate ? new Date(targetDate) : null,
+      },
     })
 
     return { statusCode: 200, data: updatedGoal }
