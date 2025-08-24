@@ -2,7 +2,7 @@ import prisma from '~/lib/db'
 
 export default defineAuthenticatedEventHandler(async (event) => {
   const goalId = event.context.params?.id
-  
+
   if (!goalId) {
     return sendError(event, createError({
       statusCode: 400,
@@ -31,9 +31,10 @@ export default defineAuthenticatedEventHandler(async (event) => {
     })
 
     return { statusCode: 204 }
-  } catch (error) {
+  }
+  catch (error) {
     console.error('Error al eliminar el objetivo:', error)
-    
+
     return sendError(event, createError({
       statusCode: 500,
       statusMessage: 'Error al eliminar el objetivo',

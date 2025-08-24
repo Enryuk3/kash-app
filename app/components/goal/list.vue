@@ -21,12 +21,12 @@ function formatDate(date?: string | Date | null) {
 </script>
 
 <template>
-  <div class="space-y-4">
+  <div class="space-y-4 @container">
     <div v-if="loading" class="space-y-4">
       <USkeleton v-for="i in 3" :key="`skeleton-${i}`" class="h-24 w-full" />
     </div>
 
-    <div v-else-if="goals.length > 0" class="@container grid gap-4 grid-cols-1 @xl:grid-cols-2 @6xl:grid-cols-3">
+    <div v-else-if="goals.length > 0" class="grid gap-4 grid-cols-1 @3xl:grid-cols-2 @6xl:grid-cols-3">
       <UCard
         v-for="goal in goals"
         :key="goal.id"

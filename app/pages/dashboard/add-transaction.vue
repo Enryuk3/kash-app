@@ -4,6 +4,7 @@ import type * as z from 'zod'
 
 type Schema = z.output<typeof transactionSchema>
 
+const { $csrfFetch } = useNuxtApp()
 const toast = useToast()
 const categoriesStore = useCategoriesStore()
 
@@ -109,7 +110,7 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
   isSubmitting.value = true
 
   try {
-    await $fetch('/api/transactions', {
+    await $csrfFetch('/api/transactions', {
       method: 'POST',
       body: event.data,
     })

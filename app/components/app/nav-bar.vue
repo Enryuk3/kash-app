@@ -40,7 +40,7 @@ const isMenuOpen = ref(false)
         </nav> -->
 
         <!-- Right side actions -->
-        <div class="flex items-center space-x-3">
+        <div class="flex items-center gap-3">
           <AppThemeToggle />
           <AuthButton />
           <!-- Mobile menu button -->

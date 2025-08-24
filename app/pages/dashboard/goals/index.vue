@@ -6,6 +6,7 @@ const { data: goals, status, refresh } = await useFetch<Goal[]>('/api/goals', {
   lazy: true,
 })
 
+const { $csrfFetch } = useNuxtApp()
 const toast = useToast()
 const isOpen = ref(false)
 const isEditing = ref(false)
@@ -46,7 +47,7 @@ async function handleFormSubmit(payload: GoalFormData) {
     const hasId = !!formState.id
     const url = hasId ? `/api/goals/${formState.id}` : '/api/goals'
     const method = hasId ? 'PATCH' : 'POST'
-    await $fetch(url, {
+    await $csrfFetch(url, {
       method,
       body: payload,
     })
