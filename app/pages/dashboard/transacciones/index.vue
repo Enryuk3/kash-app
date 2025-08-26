@@ -1,12 +1,81 @@
 <script lang="ts" setup>
-const { data: transactions, status } = await useFetch('/api/transactions', { lazy: true })
-const { data: _categories } = await useFetch('/api/categories', { lazy: true })
+// Types
+type Transaction = {
+  id: string
+  amount: number
+  description: string
+  date: string
+  category: {
+    id: string
+    name: string
+    type: 'income' | 'expense'
+  }
+}
+
+type Category = {
+  id: string
+  name: string
+  type: 'income' | 'expense'
+}
+
+// State
+const { data: transactions, status, refresh } = await useFetch<Transaction[]>('/api/transactions', { lazy: true })
+const { data: _categories } = await useFetch<Category[]>('/api/categories', { lazy: true })
 const categories = computed(() => _categories.value || [])
 
-// Filtros y búsqueda
+// Delete confirmation state
+const isDeleteDialogOpen = ref(false)
+const transactionToDelete = ref<{ id: string, description: string } | null>(null)
+const isDeleting = ref(false)
+
+// Filters
 const searchQuery = ref('')
-const selectedType = ref<string | null>(null)
+const selectedType = ref<'income' | 'expense' | null>(null)
 const selectedCategory = ref<string | null>(null)
+
+// Open delete confirmation dialog
+function confirmDelete(transaction: { id: string, description: string }) {
+  transactionToDelete.value = transaction
+  isDeleteDialogOpen.value = true
+}
+
+// Delete transaction
+async function deleteTransaction() {
+  if (!transactionToDelete.value)
+    return
+
+  isDeleting.value = true
+
+  try {
+    await $fetch(`/api/transactions/${transactionToDelete.value.id}`, {
+      method: 'DELETE',
+    })
+
+    useToast().add({
+      title: 'Transacción eliminada',
+      description: 'La transacción ha sido eliminada correctamente',
+      icon: 'i-tabler-circle-check',
+      color: 'success',
+    })
+
+    // Refresh the transactions list
+    await refresh()
+  }
+  catch (error) {
+    console.error('Error al eliminar la transacción:', error)
+    useToast().add({
+      title: 'Error',
+      description: 'No se pudo eliminar la transacción',
+      icon: 'i-tabler-alert-circle',
+      color: 'error',
+    })
+  }
+  finally {
+    isDeleting.value = false
+    isDeleteDialogOpen.value = false
+    transactionToDelete.value = null
+  }
+}
 
 // Formatear fecha
 function formatDate(date: string) {
@@ -140,7 +209,7 @@ const filteredTransactions = computed(() => {
         />
         <UButton
           color="neutral"
-          variant="outline"
+          variant="link"
           icon="i-tabler-filter"
           @click="() => {
             searchQuery = ''
@@ -188,10 +257,10 @@ const filteredTransactions = computed(() => {
                   />
                 </div>
                 <div>
-                  <h3 class="font-medium group-hover:text-primary transition-colors">
+                  <h3 class="font-medium">
                     {{ transaction.description }}
                   </h3>
-                  <p class="text-sm dark:text-gray-400 mt-1">
+                  <p class="text-sm text-muted mt-1">
                     {{ formatDate(transaction.date) }}
                   </p>
                   <UBadge
@@ -207,14 +276,14 @@ const filteredTransactions = computed(() => {
                   class="text-lg font-semibold"
                   :class="{
                     'text-primary': transaction.category.type === 'income',
-                    'text-red-600 dark:text-red-400': transaction.category.type === 'expense',
+                    'text-error': transaction.category.type === 'expense',
                   }"
                 >
                   {{ transaction.category.type === 'income' ? '+' : '-' }}${{
                     transaction.amount.toFixed(2)
                   }}
                 </p>
-                <!-- <div class="mt-2 flex justify-end space-x-2">
+                <div class="mt-2 flex justify-end space-x-2">
                   <UButton
                     icon="i-tabler-pencil"
                     color="neutral"
@@ -223,15 +292,16 @@ const filteredTransactions = computed(() => {
                     size="xs"
                     :to="`/dashboard/transacciones/editar/${transaction.id}`"
                   />
+
                   <UButton
                     icon="i-tabler-trash"
                     color="error"
                     variant="ghost"
                     class="rounded-full"
                     size="xs"
-                    @click="confirmDelete(transaction.id)"
+                    @click="confirmDelete(transaction)"
                   />
-                </div> -->
+                </div>
               </div>
             </div>
           </UCard>
@@ -279,6 +349,36 @@ const filteredTransactions = computed(() => {
         </div>
       </UCard>
     </template>
+    <!-- Diálogo de confirmación -->
+    <UModal
+      v-model:open="isDeleteDialogOpen"
+      title="¿Estás seguro?"
+      :ui="{ footer: 'justify-end' }"
+    >
+      <template #body>
+        <p class="text-sm mt-2">
+          Se borrará
+          <strong>{{ transactionToDelete?.description }}</strong>.
+          Esta acción no se puede deshacer. ¿Estás seguro de que deseas eliminar la transacción?
+        </p>
+      </template>
+
+      <template #footer>
+        <UButton
+          variant="ghost"
+          color="neutral"
+          label="Cancelar"
+          @click="isDeleteDialogOpen = false"
+        />
+        <UButton
+          color="error"
+          variant="soft"
+          label="Sí, borrar transacción"
+          :loading="isDeleting"
+          @click="deleteTransaction"
+        />
+      </template>
+    </UModal>
   </div>
 </template>
 

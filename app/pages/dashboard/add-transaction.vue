@@ -179,7 +179,7 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
       @submit="onSubmit"
     >
       <!-- Monto -->
-      <UFormField label="Monto" name="amount" class="space-y-2">
+      <UFormField label="Monto" name="amount">
         <div class="relative">
           <span class="absolute left-3 top-1/2 -translate-y-1/2 text-muted">
             S/

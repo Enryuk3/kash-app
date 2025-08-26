@@ -7,3 +7,12 @@ export async function findTransactions(userId: string) {
     orderBy: { date: 'desc' },
   })
 }
+
+export async function findTransactionById(id: string, userId: string) {
+  return prisma.transaction.findUnique({
+    where: { id, userId },
+    include: {
+      category: true,
+    },
+  })
+}
