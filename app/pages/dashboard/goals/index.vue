@@ -88,7 +88,7 @@ async function handleDelete(id: string) {
 
   try {
     await $fetch(`/api/goals/${id}`, { method: 'DELETE' })
-    toast.add({ title: 'Objetivo eliminado correctamente', color: 'success' })
+    toast.add({ title: 'Objetivo eliminado', icon: 'i-tabler-circle-check', color: 'success', description: 'El objetivo se ha eliminado correctamente' })
 
     await refresh()
   }

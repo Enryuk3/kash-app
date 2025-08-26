@@ -16,3 +16,14 @@ export async function findTransactionById(id: string, userId: string) {
     },
   })
 }
+
+export async function deleteTransactionById(id: string, userId: string) {
+  return prisma.transaction.deleteMany({
+    where: {
+      id,
+      category: {
+        userId,
+      },
+    },
+  })
+}

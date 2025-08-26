@@ -4,21 +4,7 @@ export default defineAuthenticatedEventHandler(async (event) => {
   const result = await readValidatedBody(event, transactionSchema.safeParse)
 
   if (!result.success) {
-    const statusMessage = result.error.issues
-      .map(issue => `${issue.path.join('')}: ${issue.message}`)
-      .join('; ')
-
-    const data = result.error.issues
-      .reduce((errors, issue) => {
-        errors[issue.path.join('')] = issue.message
-        return errors
-      }, {} as Record<string, string>)
-
-    return sendError(event, createError({
-      statusCode: 422,
-      statusMessage,
-      data,
-    }))
+    return sendZodError(event, result.error)
   }
 
   const { categoryId, ...transactionData } = result.data
@@ -33,11 +19,11 @@ export default defineAuthenticatedEventHandler(async (event) => {
     })
 
     if (!category) {
-      return sendError(event, createError({
+      throw createError({
         statusCode: 404,
         statusMessage: 'Categoría no encontrada o no autorizada',
         data: { field: 'categoryId' },
-      }))
+      })
     }
 
     const transaction = await prisma.transaction.create({
@@ -52,22 +38,22 @@ export default defineAuthenticatedEventHandler(async (event) => {
 
     return { statusCode: 201, data: transaction }
   }
-  catch (error) {
-    console.error('Error al crear la transacción:', error)
+  catch (e) {
+    console.error('Error al crear la transacción:', e)
 
-    if (error && typeof error === 'object' && 'code' in error) {
-      if (error.code === 'P2003') {
-        return sendError(event, createError({
+    if (e && typeof e === 'object' && 'code' in e) {
+      if (e.code === 'P2003') {
+        throw createError({
           statusCode: 400,
           statusMessage: 'Categoría no válida',
           data: { field: 'categoryId' },
-        }))
+        })
       }
     }
 
-    return sendError(event, createError({
+    throw createError({
       statusCode: 500,
       statusMessage: 'Error al procesar la transacción',
-    }))
+    })
   }
 })

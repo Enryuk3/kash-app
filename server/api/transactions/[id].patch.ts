@@ -1,33 +1,12 @@
 import prisma from '~/lib/db'
 
 export default defineAuthenticatedEventHandler(async (event) => {
-  const id = event.context.params?.id
-  
-  if (!id) {
-    return sendError(event, createError({
-      statusCode: 400,
-      statusMessage: 'ID de transacción no proporcionado',
-    }))
-  }
+  const id = getRouterParam(event, 'id') as string
 
   const result = await readValidatedBody(event, transactionSchema.safeParse)
 
   if (!result.success) {
-    const statusMessage = result.error.issues
-      .map(issue => `${issue.path.join('')}: ${issue.message}`)
-      .join('; ')
-
-    const data = result.error.issues
-      .reduce((errors, issue) => {
-        errors[issue.path.join('')] = issue.message
-        return errors
-      }, {} as Record<string, string>)
-
-    return sendError(event, createError({
-      statusCode: 422,
-      statusMessage,
-      data,
-    }))
+    return sendZodError(event, result.error)
   }
 
   const { categoryId, ...transactionData } = result.data
@@ -44,10 +23,10 @@ export default defineAuthenticatedEventHandler(async (event) => {
     })
 
     if (!existingTransaction) {
-      return sendError(event, createError({
+      throw createError({
         statusCode: 404,
         statusMessage: 'Transacción no encontrada',
-      }))
+      })
     }
 
     // Verificar que la categoría existe y pertenece al usuario
@@ -60,11 +39,11 @@ export default defineAuthenticatedEventHandler(async (event) => {
       })
 
       if (!category) {
-        return sendError(event, createError({
+        throw createError({
           statusCode: 404,
           statusMessage: 'Categoría no encontrada o no autorizada',
           data: { field: 'categoryId' },
-        }))
+        })
       }
     }
 
@@ -80,11 +59,12 @@ export default defineAuthenticatedEventHandler(async (event) => {
     })
 
     return updatedTransaction
-  } catch (error) {
+  }
+  catch (error) {
     console.error('Error al actualizar transacción:', error)
-    return sendError(event, createError({
+    throw createError({
       statusCode: 500,
       statusMessage: 'Error al actualizar la transacción',
-    }))
+    })
   }
 })

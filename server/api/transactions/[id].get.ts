@@ -5,10 +5,10 @@ export default defineAuthenticatedEventHandler(async (event) => {
   const transaction = await findTransactionById(id, event.context.user.id)
 
   if (!transaction) {
-    return sendError(event, createError({
+    throw createError({
       statusCode: 404,
       statusMessage: 'ID no encontrado',
-    }))
+    })
   }
 
   return transaction
