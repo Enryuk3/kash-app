@@ -10,7 +10,8 @@
     "preview": "nuxt preview",
     "postinstall": "nuxt prepare",
     "lint": "eslint",
-    "lint:fix": "eslint --fix"
+    "lint:fix": "eslint --fix",
+    "prepare": "husky"
   },
   "dependencies": {
     "@internationalized/date": "^3.8.2",
@@ -34,7 +35,12 @@
     "@nuxt/icon": "^2.0.0",
     "eslint": "^9.32.0",
     "eslint-plugin-format": "^1.0.1",
+    "husky": "^9.1.7",
+    "lint-staged": "^16.1.5",
     "prisma": "^6.13.0",
     "typescript": "5.8.3"
+  },
+  "lint-staged": {
+    "*": "pnpm lint"
   }
 }
