@@ -7,13 +7,12 @@ onMounted(async () => {
 </script>
 
 <template>
-  <div class="min-h-screen bg-white dark:bg-gray-900 flex items-center justify-center p-4">
-    <div class="max-w-md w-full">
-      <div class="text-center">
-        <UIcon name="i-tabler-brand-github" class="w-12 h-12 text-primary-500 mx-auto mb-4" />
-
-        <UButton color="neutral" loading-auto label="Cerrando sesión..." />
-      </div>
+  <main class="min-h-[calc(100vh-4rem)] flex items-center justify-center p-4">
+    <div class="flex flex-col items-center space-y-4">
+      <UIcon name="i-tabler-brand-github" class="size-11" />
+      <UBadge color="neutral" size="xl">
+        Cerrando sesión...
+      </UBadge>
     </div>
-  </div>
+  </main>
 </template>
