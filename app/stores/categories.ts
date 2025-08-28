@@ -1,11 +1,3 @@
-export type Category = {
-  id: string
-  name: string
-  type: 'income' | 'expense'
-  icon?: string
-  color?: string
-}
-
 export const useCategoriesStore = defineStore('categories', () => {
   const categories = ref<Category[]>([])
   const isLoading = ref(false)

@@ -177,7 +177,7 @@ const filteredTransactions = computed(() => {
               ${{ (totalIncome - totalExpense).toFixed(2) }}
             </p>
           </div>
-          <UIcon name="i-tabler-currency-dollar" class="w-8 h-8 text-primary-500" />
+          <UIcon name="i-tabler-wallet" class="w-8 h-8" />
         </div>
       </UCard>
     </div>
