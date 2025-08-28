@@ -8,7 +8,7 @@
     "dev": "nuxt dev",
     "generate": "nuxt generate",
     "preview": "nuxt preview",
-    "postinstall": "nuxt prepare",
+    "postinstall": "nuxt prepare && prisma generate",
     "lint": "eslint",
     "lint:fix": "eslint --fix",
     "prepare": "husky"
@@ -39,6 +39,11 @@
     "lint-staged": "^16.1.5",
     "prisma": "^6.13.0",
     "typescript": "5.8.3"
+  },
+  "pnpm": {
+    "onlyBuiltDependencies": [
+      "@prisma/client"
+    ]
   },
   "lint-staged": {
     "*": "pnpm lint"
