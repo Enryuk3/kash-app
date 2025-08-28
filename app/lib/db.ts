@@ -1,5 +1,6 @@
-import { PrismaClient } from '@prisma/client'
+import pkg from '@prisma/client'
 
+const { PrismaClient } = pkg
 function prismaClientSingleton() {
   return new PrismaClient()
 }
