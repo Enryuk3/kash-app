@@ -1,6 +1,10 @@
 <script lang="ts" setup>
-const { data: transactions, pending } = await useFetch<Transaction[]>('/api/transactions', { lazy: true })
+import type { Options as HighchartsOptions } from 'highcharts'
 
+const colorMode = useColorMode()
+const isDark = computed(() => colorMode.value === 'dark')
+
+const { data: transactions, pending } = await useFetch<Transaction[]>('/api/transactions', { lazy: true })
 // Calculate totals
 const balance = computed(() => {
   if (!transactions.value)
@@ -27,6 +31,68 @@ function formatCurrency(amount: number) {
     minimumFractionDigits: 2,
   }).format(amount)
 }
+// Utilidad para obtener el nombre del día de la semana
+function getDayOfWeekIndex(dateString: string): number {
+  const date = new Date(dateString)
+  // 0 = Domingo, 1 = Lunes, ..., 6 = Sábado
+  // Queremos que 0 = Lunes, ..., 6 = Domingo
+  // Así: Lunes = 1, Martes = 2, ..., Domingo = 0
+  return (date.getDay() + 6) % 7
+}
+
+// Utilidad para transformar las transacciones en datos para el gráfico
+function getChartOptionsByWeekday(transactions: Transaction[]): HighchartsOptions {
+  const daysOfWeek = ['Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado', 'Domingo']
+  const incomeByDay: number[] = Array.from({ length: daysOfWeek.length }, () => 0)
+  const expenseByDay: number[] = Array.from({ length: daysOfWeek.length }, () => 0)
+
+  for (const tx of transactions) {
+    const dayIndex = getDayOfWeekIndex(tx.date)
+    if (tx.category.type === 'income') {
+      incomeByDay[dayIndex] = (incomeByDay[dayIndex] ?? 0) + tx.amount
+    }
+    else {
+      expenseByDay[dayIndex] = (expenseByDay[dayIndex] ?? 0) - tx.amount
+    }
+  }
+  const textColor = isDark.value ? '#fff' : '#18181b'
+  const gridColor = isDark.value ? '#334155' : '#e5e7eb'
+
+  return {
+    chart: {
+      type: 'column',
+      backgroundColor: isDark.value ? '#020617' : '#fff',
+      style: { color: isDark.value ? '#e2e8f1' : '#18181b' },
+    },
+    title: {
+      text: 'Ingresos y gastos por día de la semana',
+      style: { fontSize: '15px', fontWeight: '500', color: textColor },
+    },
+    xAxis: {
+      categories: daysOfWeek,
+      labels: { style: { color: textColor } },
+      title: { style: { color: textColor } },
+    },
+    yAxis: {
+      title: { text: 'Monto', style: { color: textColor } },
+      labels: { style: { color: textColor } },
+      gridLineColor: gridColor,
+    },
+    legend: {
+      itemStyle: { color: textColor },
+    },
+    series: [
+      { name: 'Ingresos', data: incomeByDay, color: '#4ade80', type: 'column' },
+      { name: 'Gastos', data: expenseByDay, color: '#f87171', type: 'column' },
+    ],
+    credits: { enabled: false },
+  }
+}
+
+// Calcula las opciones del gráfico usando tus transacciones
+const chartOptions = computed<HighchartsOptions>(() =>
+  transactions.value ? getChartOptionsByWeekday(transactions.value) : { series: [] },
+)
 </script>
 
 <template>
@@ -101,9 +167,9 @@ function formatCurrency(amount: number) {
       <!-- Gráfico principal -->
       <UCard class="lg:col-span-2">
         <h3 class="mb-4 font-medium">
-          Resumen Mensual
+          Resumen semanal
         </h3>
-        <DashboardBarGraphic />
+        <DashboardChartBar :options="chartOptions" />
       </UCard>
 
       <!-- Últimas transacciones -->

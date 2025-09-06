@@ -31,7 +31,7 @@ function formatCurrency(amount: number) {
 </script>
 
 <template>
-  <div class="space-y-1">
+  <div class="space-y-1 max-h-[420px] overflow-y-auto">
     <template v-if="pending">
       <div v-for="i in 3" :key="`loading-${i}`" class="flex items-center justify-between p-3 rounded-lg">
         <div class="flex items-center w-full">
