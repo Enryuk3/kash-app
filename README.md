@@ -1,75 +1,76 @@
-# Nuxt Minimal Starter
+# Kash App
 
-Look at the [Nuxt documentation](https://nuxt.com/docs/getting-started/introduction) to learn more.
+[![Nuxt](https://img.shields.io/badge/Nuxt-18181B?style=flat&logo=nuxt&logoColor=00DC82)](https://nuxt.com/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-18181B?style=flat&logo=typescript&logoColor=3178C6)](https://www.typescriptlang.org/)
+[![Tailwind CSS](https://img.shields.io/badge/Tailwind-18181B?style=flat&logo=tailwindcss&logoColor=38B2AC)](https://tailwindcss.com/)
 
-## Setup
 
-Make sure to install dependencies:
+
+_Kash is a financial management app, with transaction tracking, goal setting, and categorization of expenses._
+## Features
+
+- Transaction management
+- Financial goal tracking
+- Categorization of expenses
+- Secure authentication
+- Responsive design
+- Optimized performance
+
+## Getting Started
+
+### Prerequisites
+
+- Node.js 22+
+- pnpm (recommended) or npm/yarn
+- PostgreSQL (for database)
+
+### Installation
+
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/yourusername/kash-app.git
+   cd kash-app
+   ```
+
+2. Install dependencies:
+   ```bash
+   pnpm install
+   ```
+
+3. Set up environment variables:
+   ```bash
+   cp .env.example .env
+   # Edit .env with your configuration
+   ```
+
+4. Run database migrations:
+   ```bash
+   pnpm prisma migrate dev
+   ```
+
+## Development
+
+Start the development server:
 
 ```bash
-# npm
-npm install
-
-# pnpm
-pnpm install
-
-# yarn
-yarn install
-
-# bun
-bun install
-```
-
-## Development Server
-
-Start the development server on `http://localhost:3000`:
-
-```bash
-# npm
-npm run dev
-
-# pnpm
 pnpm dev
-
-# yarn
-yarn dev
-
-# bun
-bun run dev
 ```
 
-## Production
+The application will be available at [http://localhost:3000](http://localhost:3000).
 
-Build the application for production:
+### Build for Production
 
 ```bash
-# npm
-npm run build
-
-# pnpm
+# Build the application
 pnpm build
 
-# yarn
-yarn build
-
-# bun
-bun run build
-```
-
-Locally preview production build:
-
-```bash
-# npm
-npm run preview
-
-# pnpm
+# Preview the production build
 pnpm preview
-
-# yarn
-yarn preview
-
-# bun
-bun run preview
 ```
 
-Check out the [deployment documentation](https://nuxt.com/docs/getting-started/deployment) for more information.
+
+## Acknowledgments
+
+- Built with [Nuxt 4](https://nuxt.com/)
+- Styled with [Tailwind CSS](https://tailwindcss.com/)
+- Icons from [Iconify](https://iconify.design/)
