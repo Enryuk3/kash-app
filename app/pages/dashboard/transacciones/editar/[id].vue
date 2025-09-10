@@ -129,6 +129,13 @@ onMounted(async () => {
     })
   }
 })
+
+useSeoMeta({
+  title: 'Editar transacción',
+  description: 'Edita los detalles de tu transacción en Kash app.',
+  ogTitle: 'Editar transacción',
+  ogDescription: 'Edita los detalles de tu transacción en Kash app.',
+})
 </script>
 
 <template>

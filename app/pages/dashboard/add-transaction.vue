@@ -149,6 +149,13 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
     isSubmitting.value = false
   }
 }
+
+useSeoMeta({
+  title: 'Nueva transacción',
+  description: 'Registra un nuevo gasto o ingreso y mantén tus finanzas al día en Kash app.',
+  ogTitle: 'Nueva transacción',
+  ogDescription: 'Registra un nuevo gasto o ingreso y mantén tus finanzas al día en Kash app.',
+})
 </script>
 
 <template>

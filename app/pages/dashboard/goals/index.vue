@@ -121,6 +121,13 @@ function handleCreate() {
   isEditing.value = false
   isOpen.value = true
 }
+
+useSeoMeta({
+  title: 'Objetivos de ahorro',
+  description: 'Gestiona y crea tus objetivos de ahorro para alcanzar tus metas financieras en Kash app.',
+  ogTitle: 'Objetivos de ahorro',
+  ogDescription: 'Gestiona y crea tus objetivos de ahorro para alcanzar tus metas financieras en Kash app.',
+})
 </script>
 
 <template>

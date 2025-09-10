@@ -114,6 +114,13 @@ const filteredTransactions = computed(() => {
     return matchesSearch && matchesType && matchesCategory
   })
 })
+
+useSeoMeta({
+  title: 'Transacciones',
+  description: 'Consulta y administra todas tus transacciones financieras en Kash app.',
+  ogTitle: 'Transacciones',
+  ogDescription: 'Consulta y administra todas tus transacciones financieras en Kash app.',
+})
 </script>
 
 <template>
